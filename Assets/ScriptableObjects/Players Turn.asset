@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d5d9ed62f90c045805a5cc7dc22530, type: 3}
   m_Name: Players Turn
   m_EditorClassIdentifier: 
-  isPlayerTurn: 0
+  isPlayerTurn: 1
