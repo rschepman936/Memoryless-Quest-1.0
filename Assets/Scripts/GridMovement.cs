@@ -49,9 +49,5 @@ public class GridMovement : MonoBehaviour
                 }
             }
         }
-        
-        //resets the players turn for testing purposes
-        playersTurn.isPlayerTurn=true;
-
     }
 }
