@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Walkable
   - Obstacle
+  - Exit
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Obstacles
-  - 
+  - Exit
   - 
   - 
   - 

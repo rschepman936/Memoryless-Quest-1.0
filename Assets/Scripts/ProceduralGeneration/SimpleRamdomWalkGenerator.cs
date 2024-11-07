@@ -30,6 +30,12 @@ public class SimpleRamdomWalkGenerator : AbstractDungeonGenerator
                 currentPos = floorPos.ElementAt(Random.Range(0,floorPos.Count));
             }
         }
+        floorPos.Add(Vector2Int.zero);
         return floorPos;
     }
+
+    public void Start(){
+        runProceduralGeneration();
+    }
+
 }
