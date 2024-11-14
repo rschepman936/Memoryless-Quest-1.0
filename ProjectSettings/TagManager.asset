@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - Exit
   - Crystal
+  - Enemy
   layers:
   - Default
   - TransparentFX
