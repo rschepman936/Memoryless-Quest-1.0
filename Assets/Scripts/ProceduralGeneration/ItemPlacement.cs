@@ -9,7 +9,7 @@ public class ItemPlacement : MonoBehaviour
     {
         for (var i = 0; i < 3; i++)
         {
-            Instantiate(prefab, new Vector3(i * 2.0f, 0, 4), Quaternion.identity);
+            Instantiate(prefab, new Vector3(-10, 0, 0), Quaternion.identity);
         }
     }
 }
