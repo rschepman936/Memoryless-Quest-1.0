@@ -19,6 +19,8 @@ public class GridMovement : MonoBehaviour
     public Vector2 playerSave;
     public VectorValue playerStorage;
 
+    public gotMemoryShard gotShard;
+
     // Start is called before the first frame update
     void Start()
     {
