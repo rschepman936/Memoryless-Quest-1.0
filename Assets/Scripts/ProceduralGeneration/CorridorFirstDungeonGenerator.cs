@@ -12,6 +12,8 @@ public class CorridorFirstDungeonGenerator : SimpleRamdomWalkGenerator
     [SerializeField]
     [Range(0.1f,1)]
     private float roomPercentage = 0.4f;
+
+    public GameObject memoryShard;
    
     protected override void runProceduralGeneration(){
         CorridorFirstGeneration();
@@ -27,18 +29,19 @@ public class CorridorFirstDungeonGenerator : SimpleRamdomWalkGenerator
         floorPositions.UnionWith(roomPositions);
 
         dungeonVisualizer.PaintFloorTiles(floorPositions);
-        
-        
     }
 
     private HashSet<Vector2Int> CreateRooms(HashSet<Vector2Int> potentialRoomPositions){
         HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
         int roomsToCreateCount = Mathf.RoundToInt(potentialRoomPositions.Count()*roomPercentage);
         List<Vector2Int> roomsToCreate = potentialRoomPositions.OrderBy(x => Guid.NewGuid()).Take(roomsToCreateCount).ToList();
-
+        List<Vector2Int> shardPos = roomsToCreate.OrderBy(x => Guid.NewGuid()).Take(1).ToList();
         foreach(var roomPosition in roomsToCreate){
             var roomFloor = RunRandomWalk(randomWalkParameters, roomPosition);
             roomPositions.UnionWith(roomFloor);
+        }
+        foreach(var shard in shardPos){
+            memoryShard.transform.position = new Vector3(shard.x, shard.y, 0);
         }
         return roomPositions;
     }
