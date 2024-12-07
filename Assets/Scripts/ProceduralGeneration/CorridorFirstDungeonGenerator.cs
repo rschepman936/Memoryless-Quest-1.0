@@ -81,8 +81,6 @@ public class CorridorFirstDungeonGenerator : SimpleRamdomWalkGenerator
         potRoomPos.Add(currentPosition);
         List<List<Vector2Int>> corridors = new  List<List<Vector2Int>>();
 
-        Debug.Log(corridorCount * (floorTracker.floorNumber));
-
         for(int i =0;i<corridorCount * (floorTracker.floorNumber) ;i++){
             var corridor = ProceduralGenerationAlgorithms.RandomWalkCorridor(currentPosition, corridorLength);
             corridors.Add(corridor);
