@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.Tilemaps;
+
 
 public class SimpleRamdomWalkGenerator : AbstractDungeonGenerator
 {
 
     [SerializeField]
     protected SimpleRandomWalkSO randomWalkParameters;
+
+    [SerializeField]
+    protected Tilemap corridorTileMap;
     
     [SerializeField]
     protected override void runProceduralGeneration(){
@@ -16,7 +21,7 @@ public class SimpleRamdomWalkGenerator : AbstractDungeonGenerator
     Vector2Int startPosition = Vector2Int.zero;
         HashSet<Vector2Int> floorPositions = RunRandomWalk(randomWalkParameters, startPosition);
         dungeonVisualizer.Clear();
-        dungeonVisualizer.PaintFloorTiles(floorPositions);
+        dungeonVisualizer.PaintFloorTiles(floorPositions, corridorTileMap);
     }
 
     protected HashSet<Vector2Int> RunRandomWalk(SimpleRandomWalkSO randomWalkParameters, Vector2Int position){
@@ -29,7 +34,6 @@ public class SimpleRamdomWalkGenerator : AbstractDungeonGenerator
                 currentPos = floorPos.ElementAt(Random.Range(0,floorPos.Count));
             }
         }
-        floorPos.Add(Vector2Int.zero);
         return floorPos;
     }
 

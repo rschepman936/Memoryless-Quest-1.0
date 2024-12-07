@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
+
 public class DungeonVisualizer : MonoBehaviour
 {
     [SerializeField]
-    private Tilemap floorTileMap;
+    private Tilemap roomTileMap;
+    [SerializeField]
+    private Tilemap corridorTileMap;
     [SerializeField]
     private TileBase floorTile;
 
    
     
-    public void PaintFloorTiles(IEnumerable<Vector2Int> floorPostions){
-        PaintTiles(floorPostions, floorTileMap, floorTile);
+    public void PaintFloorTiles(IEnumerable<Vector2Int> floorPostions, Tilemap TileMap){
+        PaintTiles(floorPostions, TileMap, floorTile);
     }
 
     public void PaintTiles(IEnumerable<Vector2Int> pos, Tilemap map, TileBase tile){
@@ -27,6 +31,7 @@ public class DungeonVisualizer : MonoBehaviour
     }
 
     public void Clear(){
-        floorTileMap.ClearAllTiles();
+        corridorTileMap.ClearAllTiles();
+        roomTileMap.ClearAllTiles();
     }
 }
