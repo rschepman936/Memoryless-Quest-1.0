@@ -27,16 +27,37 @@ public class EnemyGridMovement : MonoBehaviour
     public float moveValue;
 
     public FloorTracker floorTracker;
+    public GameObject enemySnd;
+
+
+    //for animation
+    private Animator animator_;
+
+    //for tinting
+    public Renderer enemyRenderer;
+    private Color enemyColor;
+
+
     void Start()
     {
         moveValue = Range(0f, 1.0f);
         if (moveValue <= moveChance ){
             willMove = true;
-            GetComponent<Renderer>().material.color = new Color(0, 255, 0);
+            //GetComponent<Renderer>().material.color = new Color(0, 255, 0);
         }else{
             willMove = false;
-            GetComponent<Renderer>().material.color = new Color(255, 255, 0);
+            //GetComponent<Renderer>().material.color = new Color(255, 255, 0);
         }
+
+        //for animation
+        animator_ = GetComponent<Animator>();
+
+        //for tinting
+        if(enemyRenderer == null){
+            enemyRenderer = GetComponent<Renderer>();
+        }
+
+        enemyColor = enemyRenderer.material.color;
     }
 
     void Update()
@@ -60,15 +81,20 @@ public class EnemyGridMovement : MonoBehaviour
             moveValue = Range(0f, 1.0f);
             if (moveValue <= moveChance ){
                 willMove = true;
-                GetComponent<Renderer>().material.color = new Color(0, 255, 0);
+                //GetComponent<Renderer>().material.color = new Color(255, 0, 0);
             }else{
                 willMove = false;
-                GetComponent<Renderer>().material.color = new Color(255, 255, 0);
+                StartCoroutine(FadeToOriginalColor(enemyRenderer, enemyColor, Color.red, 1f));
+                AudioSource ready = enemySnd.GetComponent<AudioSource>();
+                ready.Play();
+                //GetComponent<Renderer>().material.color = new Color(255,255,255);
             }
         }
+    }
 
-        
-
+    void FixedUpdate(){
+        // for animation
+        Move_Animation();
     }
 
     void MoveTowardsGoal()
@@ -126,5 +152,61 @@ public class EnemyGridMovement : MonoBehaviour
 
             movePoint.position = prevPos;
         }
+    }
+
+    //for animation
+    void Move_Animation() {
+        Vector3 movePosition = Vector3.zero;
+
+        // move left
+        if(Input.GetAxisRaw("Horizontal") < 0) {
+            movePosition = Vector3.left;
+            GetComponent<SpriteRenderer>().flipX = true;
+            animator_.SetBool("isMove", true);
+        }
+        // move right
+        else if(Input.GetAxisRaw("Horizontal") > 0) {
+            movePosition = Vector3.right;
+            GetComponent<SpriteRenderer>().flipX = false;
+            animator_.SetBool("isMove", true);
+        }
+        //move down
+        else if(Input.GetAxisRaw("Vertical") < 0){
+            movePosition = Vector3.down;
+            animator_.SetBool("isMove", true);
+        }
+        //move up
+        else if(Input.GetAxisRaw("Vertical") > 0){
+            movePosition = Vector3.up;
+            animator_.SetBool("isMove", true);
+        }
+        // no move
+        else {
+            animator_.SetBool("isMove", false);
+        }
+    }
+    // for tining when enemy's stop
+    // tintColor : tint color (ex: Color.red)
+    // duration : time for back to origin color
+    private System.Collections.IEnumerator FadeToOriginalColor(Renderer renderer, Color originalColor, Color tintColor, float duration)
+    {
+        // tint color on
+        renderer.material.color = tintColor;
+
+        float elapsedTime = 0f;
+        Color startColor = tintColor;
+
+        // return to origin color gradually
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+            renderer.material.color = Color.Lerp(startColor, originalColor, t);
+
+            yield return null;
+        }
+
+        // origin color
+        renderer.material.color = originalColor;
     }
 }
