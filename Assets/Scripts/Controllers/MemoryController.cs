@@ -28,4 +28,10 @@ public class MemoryController : MonoBehaviour
         havingCount += amount;
         Debug.Log("MemoryFragment: " + havingCount);
     }
+
+    public void ResetMemoryCount()
+    {
+        havingCount = 0;
+    }
+
 }

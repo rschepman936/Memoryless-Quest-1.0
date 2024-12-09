@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour{
         uiController.GameStart();
 
         Debug.Log("Start Button");
+
+        MemoryController.Instance.ResetMemoryCount();
     }
 
     public void GameExit(){
@@ -22,24 +24,32 @@ public class GameController : MonoBehaviour{
         #endif
 
         Debug.Log("Exit Button");
+
+        MemoryController.Instance.ResetMemoryCount();
     }
 
     public void GameReTry(){
         uiController.GameReStart();
 
         Debug.Log("Re-try Button");
+
+        MemoryController.Instance.ResetMemoryCount();
     }
 
     public void GoodEnding(){
         uiController.GoodEnding();
 
         Debug.Log("Good Ending");
+
+        MemoryController.Instance.ResetMemoryCount();
     }
 
     public void BadEnding(){
         uiController.BadEnding();
 
         Debug.Log("Bad Ending");
+
+        MemoryController.Instance.ResetMemoryCount();
     }
 
     public void Update()

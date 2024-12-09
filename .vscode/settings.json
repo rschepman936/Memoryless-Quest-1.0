@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "MermoryLessQuestGame.sln"
+    "dotnet.defaultSolution": "Memoryless-Quest-1.0.sln"
 }
