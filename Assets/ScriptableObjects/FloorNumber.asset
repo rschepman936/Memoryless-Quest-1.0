@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca09351394107e140a795ba5a607daa3, type: 3}
   m_Name: FloorNumber
   m_EditorClassIdentifier: 
-  floorNumber: 6
+  floorNumber: 5
