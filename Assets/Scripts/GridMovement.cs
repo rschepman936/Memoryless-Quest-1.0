@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.Scripting.APIUpdating;
 public class GridMovement : MonoBehaviour
 {
 
@@ -33,64 +34,89 @@ public class GridMovement : MonoBehaviour
     public int invisTimer = 0;
 
 
+    //for animation
+    private Animator animator_;
+
+
     // Start is called before the first frame update
     void Start()
     {
         movePoint.parent = null;
         canInvis = true;
         invisActive = false;
+
+        //for animation
+        animator_ = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed*Time.deltaTime);
-        if(enemyTracker.enemyTurn==0){
-            if(Vector3.Distance(transform.position, movePoint.position) <= 0.1f){
-                if  (Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f ){
-                    if(Physics2D.OverlapCircle(playerPos.position + new Vector3(Input.GetAxisRaw("Horizontal"),0f,0f),.2f,whereExit)){                            
-                        if(floorTracker.floorNumber == 5){
-                            LoadScene("VictoryScene");
-                        }else{
-                            LoadScene(sceneToLoad);
-                        }
-                    }else if(Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"),0f,0f),.2f,whereCanMove)){
-                        movePoint.position +=  new Vector3(Input.GetAxisRaw("Horizontal"),0f,0f);
-                        if(invisActive == true){
-                            invisTimer++;
-                            if(invisTimer == 5){
-                                endInvis();
+        // to ignore the movement during story is on air
+        if(StoryController.isStory == true){
+            if (Input.anyKeyDown){
+            // check whether any keys pressd
+                if (!Input.GetKeyDown(KeyCode.Space)){
+                    // ignore that key
+                    //Debug.Log("Input Other Key");
+                    return;
+                }
+            }
+        }
+        else{
+            if(enemyTracker.enemyTurn==0){
+                if(Vector3.Distance(transform.position, movePoint.position) <= 0.1f){
+                    if  (Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f ){
+                        if(Physics2D.OverlapCircle(playerPos.position + new Vector3(Input.GetAxisRaw("Horizontal"),0f,0f),.2f,whereExit)){                            
+                            if(floorTracker.floorNumber == 5){
+                                LoadScene("VictoryScene");
+                            }else{
+                                LoadScene(sceneToLoad);
                             }
-                        }else{
-                            enemyTracker.enemyTurn = enemyTracker.totalEnemies; 
-                        } 
-                    }
-                }else if  (Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f ){
-                    if(Physics2D.OverlapCircle(playerPos.position + new Vector3(0f,Input.GetAxisRaw("Vertical"),0f),.2f,whereExit)){
-                        if(floorTracker.floorNumber == 5){
-                            LoadScene("VictoryScene");
-                        }else{
-                            LoadScene(sceneToLoad);
+                        }else if(Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"),0f,0f),.2f,whereCanMove)){
+                            movePoint.position +=  new Vector3(Input.GetAxisRaw("Horizontal"),0f,0f);
+                            if(invisActive == true){
+                                invisTimer++;
+                                if(invisTimer == 5){
+                                    endInvis();
+                                }
+                            }else{
+                                enemyTracker.enemyTurn = enemyTracker.totalEnemies; 
+                            } 
                         }
-                    }else if(Physics2D.OverlapCircle(movePoint.position + new Vector3(0f,Input.GetAxisRaw("Vertical"),0f),.2f,whereCanMove)){
-                        movePoint.position +=  new Vector3(0f,Input.GetAxisRaw("Vertical"),0f);
-                        if(invisActive == true){
-                            invisTimer++;
-                            if(invisTimer == 5){
-                                endInvis();
+                    }else if  (Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f ){
+                        if(Physics2D.OverlapCircle(playerPos.position + new Vector3(0f,Input.GetAxisRaw("Vertical"),0f),.2f,whereExit)){
+                            if(floorTracker.floorNumber == 5){
+                                LoadScene("VictoryScene");
+                            }else{
+                                LoadScene(sceneToLoad);
                             }
-                        }else{
-                            enemyTracker.enemyTurn = enemyTracker.totalEnemies; 
-                        }                       
+                        }else if(Physics2D.OverlapCircle(movePoint.position + new Vector3(0f,Input.GetAxisRaw("Vertical"),0f),.2f,whereCanMove)){
+                            movePoint.position +=  new Vector3(0f,Input.GetAxisRaw("Vertical"),0f);
+                            if(invisActive == true){
+                                invisTimer++;
+                                if(invisTimer == 5){
+                                    endInvis();
+                                }
+                            }else{
+                                enemyTracker.enemyTurn = enemyTracker.totalEnemies; 
+                            }                       
+                        }
                     }
                 }
             }
         }
 
-        if (Keyboard.current.spaceKey.isPressed){
+        if (Keyboard.current.enterKey.isPressed){
             goInvis();
         }
 
+    }
+
+    void FixedUpdate(){
+        // for animation
+        Move_Animation();
     }
 
     public void goInvis(){
@@ -113,5 +139,37 @@ public class GridMovement : MonoBehaviour
         floorTracker.floorNumber++;
         SceneManager.LoadScene(sceneName);
         playerStorage.initialValue = playerSave;
+    }
+
+    //for animation
+    void Move_Animation() {
+        Vector3 movePosition = Vector3.zero;
+
+        // move left
+        if(Input.GetAxisRaw("Horizontal") < 0) {
+            movePosition = Vector3.left;
+            GetComponent<SpriteRenderer>().flipX = true;
+            animator_.SetBool("isMove", true);
+        }
+        // move right
+        else if(Input.GetAxisRaw("Horizontal") > 0) {
+            movePosition = Vector3.right;
+            GetComponent<SpriteRenderer>().flipX = false;
+            animator_.SetBool("isMove", true);
+        }
+        //move down
+        else if(Input.GetAxisRaw("Vertical") < 0){
+            movePosition = Vector3.down;
+            animator_.SetBool("isMove", true);
+        }
+        //move up
+        else if(Input.GetAxisRaw("Vertical") > 0){
+            movePosition = Vector3.up;
+            animator_.SetBool("isMove", true);
+        }
+        // no move
+        else {
+            animator_.SetBool("isMove", false);
+        }
     }
 }
