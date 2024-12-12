@@ -108,7 +108,7 @@ public class GridMovement : MonoBehaviour
             }
         }
 
-        if (Keyboard.current.spaceKey.isPressed){
+        if (Keyboard.current.enterKey.isPressed){
             goInvis();
         }
 
@@ -124,12 +124,12 @@ public class GridMovement : MonoBehaviour
             canInvis = false;
             invisActive = true;
             invisTimer = 0;
-            //GetComponent<SpriteRenderer>().color = new Color(255,255,255,.3f);
+            GetComponent<SpriteRenderer>().color = new Color(255,255,255,.3f);
         }
     }
 
     public void endInvis(){
-        //GetComponent<SpriteRenderer>().color = new Color(255,255,255,1);
+        GetComponent<SpriteRenderer>().color = new Color(255,255,255,1);
         invisActive = false;
     }
 

@@ -14691,7 +14691,7 @@ PrefabInstance:
       objectReference: {fileID: 239019766}
     - target: {fileID: 919866755589971877, guid: 5341dede597acbc4f888675cc9c8ff97, type: 3}
       propertyPath: moveChance
-      value: 0.7
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 919866755589971877, guid: 5341dede597acbc4f888675cc9c8ff97, type: 3}
       propertyPath: floorTracker
