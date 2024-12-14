@@ -9308,7 +9308,7 @@ MonoBehaviour:
   corridorTileMap: {fileID: 2131014804}
   enemyTracker: {fileID: 11400000, guid: 1f4f76c9984bdab409e9fa467d182657, type: 2}
   corridorLength: 10
-  corridorCount: 10
+  corridorCount: 8
   roomPercentage: 0.7
   memoryShard: {fileID: 1318932041}
   enemy: {fileID: 1517392364}

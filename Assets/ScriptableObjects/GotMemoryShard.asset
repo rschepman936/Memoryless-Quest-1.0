@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98bcdd2b53b45164faf56e5955f73918, type: 3}
   m_Name: GotMemoryShard
   m_EditorClassIdentifier: 
-  haveShard: 0
+  haveShard: 1
