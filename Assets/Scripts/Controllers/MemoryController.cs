@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MemoryController : MonoBehaviour
 {
@@ -6,6 +7,21 @@ public class MemoryController : MonoBehaviour
     public int havingCount = 0;
     public GameObject memorySnd;
 
+
+    public void Update(){
+
+		Scene currentScene = SceneManager.GetActiveScene ();
+
+	
+		string sceneName = currentScene.name;
+
+		if (sceneName == "GameStart") 
+		{
+			havingCount = 0;
+            Debug.Log("reset count");
+		}
+
+    }
     private void Awake()
     {
         // Singleton pattern for keep the value when the scences changing

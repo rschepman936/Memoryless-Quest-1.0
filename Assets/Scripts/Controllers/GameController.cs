@@ -10,7 +10,6 @@ public class GameController : MonoBehaviour{
 
     public void GameStart(){
         uiController.GameStart();
-
         Debug.Log("Start Button");
     }
 
